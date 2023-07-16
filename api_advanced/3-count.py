@@ -46,4 +46,3 @@ def count_words(subreddit, word_list, after="", count=None):
 
 count_words("unpopular", ['down', 'vote', 'downvote',
                           'you', 'her', 'unpopular', 'politics'])
-
