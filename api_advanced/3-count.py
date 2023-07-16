@@ -9,10 +9,12 @@ def count_words(subreddit, word_list, after="", count=None):
     if count is None:
         count = [0] * len(word_list)
 
-    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    url = ("https://www.reddit.com/r/{}/hot.json"
+           .format(subreddit))
     headers = {'User-Agent': 'Mozilla/5.0'}
     params = {'after': after}
-    response = requests.get(url, headers=headers, params=params, allow_redirects=False)
+    response = requests.get(url, headers=headers,
+                            params=params, allow_redirects=False)
 
     if response.status_code == 200:
         data = response.json()
@@ -32,11 +34,16 @@ def count_words(subreddit, word_list, after="", count=None):
                         save.append(j)
                         count[i] += count[j]
 
-            sorted_words = sorted(zip(word_list, count), key=lambda x: (-x[1], x[0]))
+            sorted_words = sorted(zip(word_list, count),
+                                  key=lambda x: (-x[1], x[0]))
 
             for word, count in sorted_words:
                 if count > 0 and word.lower() not in save:
                     print("{}: {}".format(word.lower(), count))
         else:
             count_words(subreddit, word_list, after, count)
+
+
+count_words("unpopular", ['down', 'vote', 'downvote',
+                          'you', 'her', 'unpopular', 'politics'])
 
